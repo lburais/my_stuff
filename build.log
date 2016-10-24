@@ -1,0 +1,25 @@
+[INFO ]  Performing some trivial sanity checks
+[DEBUG]  Testing '! ( -n  )'
+[DEBUG]  Testing '! ( -n  )'
+[DEBUG]  Testing '! ( -n  )'
+[DEBUG]  Testing '! ( -n  )'
+[DEBUG]  Testing '! ( -n  )'
+[DEBUG]  Testing '! ( -n  )'
+[DEBUG]  ==> Executing: 'mkdir' '-p' '/Volumes/Ankh/GitHub/OsiriS/scripts/.build' 
+[DEBUG]  ==> Executing: 'rm' '-f' '/Volumes/Ankh/GitHub/OsiriS/scripts/.build/backtrace' 
+[DEBUG]  ==> Executing: 'touch' '/Volumes/Ankh/GitHub/OsiriS/scripts/.build/foo' 
+[DEBUG]  Testing '! ( -f /Volumes/Ankh/GitHub/OsiriS/scripts/.build/FOO )'
+[ERROR]  Your file system in '/Volumes/Ankh/GitHub/OsiriS/scripts/.build' is *not* case-sensitive!
+[ERROR]  
+[ERROR]  >>
+[ERROR]  >>  Build failed in step '(top-level)'
+[ERROR]  >>
+[ERROR]  >>  Error happened in: CT_Abort[scripts/functions@329]
+[ERROR]  >>        called from: CT_TestAndAbort[scripts/functions@351]
+[ERROR]  >>        called from: main[scripts/crosstool-NG.sh@93]
+[ERROR]  >>
+[ERROR]  >>  For more info on this error, look at the file: 'build.log'
+[ERROR]  >>  There is a list of known issues, some with workarounds, in:
+[ERROR]  >>      '/usr/local/Cellar/crosstool-ng/1.21.0/share/doc/crosstool-ng/ct-ng.1.21.0/B - Known issues.txt'
+[ERROR]  
+[ERROR]  (elapsed: 24020077:41.00)
