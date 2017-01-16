@@ -8,7 +8,7 @@ LABEL Version="1.0"
 EXPOSE 22
 
 # install packages
-RUN apt-get update && apt-get install -y git build-essential binutils openssh-server
+RUN apt-get update && apt-get install -y nano git build-essential binutils openssh-server
 
 # set working dir
 WORKDIR /root
