@@ -376,19 +376,19 @@ update_packages () {
 	display_debug "-> $FUNCNAME $*"
 
 	case ${PACKAGE_COMMAND} in
-        "brew")
-            run_cmd brew update
-            run_cmd brew upgrade
-            ;;
-        "port")
-            run_cmd sudo port upgrade
-            ;;
+		"brew")
+		run_cmd brew update
+		run_cmd brew upgrade
+		;;
+		"port")
+		run_cmd sudo port upgrade
+		;;
 		"apt-get")
-			run_cmd sudo apt-get ${apt_get_flags} update
-			run_cmd sudo apt-get ${apt_get_flags} upgrade
-			;;
+		run_cmd sudo apt-get ${apt_get_flags} update
+		run_cmd sudo apt-get ${apt_get_flags} upgrade
+		;;
 		*)
-			;;
+		;;
 	esac
 
 	errcode=$?
@@ -405,20 +405,20 @@ clean_packages () {
 	display_debug "-> $FUNCNAME $*"
 
 	case ${PACKAGE_COMMAND} in
-        "brew")
-            run_cmd brew cleanup
-            ;;
+		"brew")
+		run_cmd brew cleanup
+		;;
 		"port")
-			run_cmd sudo port clean --all
-			;;
+		run_cmd sudo port clean --all
+		;;
 		"apt-get")
-			run_cmd sudo apt-get -f install
-			run_cmd sudo apt-get autoremove
-			run_cmd sudo apt-get -y autoclean
-			run_cmd sudo apt-get -y clean
-			;;
+		run_cmd sudo apt-get -f install
+		run_cmd sudo apt-get autoremove
+		run_cmd sudo apt-get -y autoclean
+		run_cmd sudo apt-get -y clean
+		;;
 		*)
-			;;
+		;;
 	esac
 
 	errcode=$?
@@ -746,6 +746,13 @@ get_from_web() {
 get_from_git() {
 
 	display_debug "-> $FUNCNAME $*"
+
+	if [ $# -ne 0 ]; then
+		BUILD_DIR = $1
+		SRC_GIT = $2
+		SRC_FILE = $3
+		SRC_BRANCH = $4
+	fi
 
 	if [ "x${SRC_GIT}" = "x" -o "x${SRC_FILE}" = "x" ]; then
 		display_debug "not a git request ($SRC_GIT/$SRC_FILE.git)"
