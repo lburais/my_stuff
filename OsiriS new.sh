@@ -2,11 +2,14 @@
 
 clear
 
+# source functions.sh
+
 noaction=false
 debug=false
 help=false
 log=""
 logfile="/dev/null"
+$SRC=/root
 
 
 # ----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -22,13 +25,6 @@ display_title () {
 		echo "####################################################################################################################################"
 		echo ""
 	fi
-}
-
-display_footer () {
-
-		echo ""
-		echo "####################################################################################################################################"
-		echo ""
 }
 
 write_log () {
@@ -69,7 +65,7 @@ display_pause () {
 	if [ ! -z "$1" ]; then
 		if [ $debug = true ]; then
 			write_log "${1}" "PAUSE"
-			read -p "press [Ctrl-C] to abort, [Enter] to continue..."
+			read -p "press [Enter] key to continue..."
 		fi
 	fi
 }
@@ -85,122 +81,17 @@ run_cmd () {
 	return $errcode
 }
 
-# ----------------------------------------------------------------------------------------------------------------------------------------------------
-# INSTALL PACKAGES
-# param1 = packages
-# ----------------------------------------------------------------------------------------------------------------------------------------------------
+display_help () {
+	display_msg "OsiriS.sh options:"
+	LIST=`type -t set_option_* | grep function`
+	display_msg "  $LIST"
 
-PACKAGES=( )
+	display_msg "OsiriS.sh actions:"
+	OPTIONS=`type -t do_* | grep function`
+	display_msg "  $LIST"
 
-install_packages () {
-
-	declare -a LIST_PACKAGES=("${!1}")
-	line=`echo "${LIST_PACKAGES[@]}"`
-	display_debug "-> $FUNCNAME $line"
-
-	run_cmd apt-get -y update
-	run_cmd apt-get -y upgrade
-
-	display_debug "packages:"
-	for PACKAGE in ${LIST_PACKAGES[@]}
-	do
-		INSTALLED=$(dpkg-query -l $PACKAGE 2>&1 | grep ^ii | wc -l)
-		if [ $INSTALLED -ne 1 ]; then
-			run_cmd apt-get -y install $PACKAGE
-			if [ $?  -ne 0 ]; then
-				display_fail "Unable to install package ${PACKAGE}"
-			else
-				display_debug "     $PACKAGE installed"
-			fi
-		else
-			if [ $INSTALLED -eq -1 ]; then
-				display_debug "     cannot check $PACKAGE"
-			else
-				display_debug "     $PACKAGE already installed"
-			fi
-		fi
-	done
-
-	run_cmd apt-get -f install
-	run_cmd apt-get autoremove
-	run_cmd apt-get -y autoclean
-	run_cmd apt-get -y clean
-
-	display_debug "<- $FUNCNAME"
-	return 0
-}
-
-# ----------------------------------------------------------------------------------------------------------------------------------------------------
-# get_from_git
-# ----------------------------------------------------------------------------------------------------------------------------------------------------
-#
-# param1 : OUTPUT_DIR
-# param2 : SRC_GIT
-# param3 : SRC_FILE
-# param4 : SRC_BRANCH
-# ----------------------------------------------------------------------------------------------------------------------------------------------------
-
-get_from_git() {
-
-	display_debug "-> $FUNCNAME $*"
-
-	if [ $# -ne 0 ]; then
-		OUTPUT_DIR=$1
-		SRC_GIT=$2
-		SRC_FILE=$3
-		SRC_BRANCH=$4
-	fi
-
-	if [ "x${SRC_GIT}" = "x" -o "x${SRC_FILE}" = "x" ]; then
-		display_debug "not a git request ($SRC_GIT/$SRC_FILE.git)"
-		display_debug "<- $FUNCNAME"
-		return 0;
-	fi
-
-	if [ "x${SRC_BRANCH}" = "x" ]; then
-		options=""
-		SRC_BRANCH="master"
-	else
-		options="-b ${SRC_BRANCH}"
-	fi
-
-	if [ "x${OUTPUT_DIR}" = "x." ]; then
-		options="$options"
-		GIT_DIR="${SRC_FILE}"
-	else
-		options="$options $OUTPUT_DIR"
-		GIT_DIR="${OUTPUT_DIR}"
-	fi
-
-	display_action "Getting source file ${SRC_FILE} branch ${SRC_BRANCH} from git ${SRC_GIT} ..."
-
-	if [ -d "${GIT_DIR}/.git" ]; then
-		cd ${GIT_DIR}
-		display_debug "pulling ${SRC_GIT}/${SRC_FILE}.git in $PWD..."
-		run_cmd git pull
-		CHANGED_FILES=$(git diff --name-only)
-		if [[ -n $CHANGED_FILES ]]; then
-			display_pause "Can't update since you made changes to: \n${CHANGED_FILES}"
-		else
-			run_cmd git checkout ${LIB_TAG:- master}
-		fi
-	else
-		display_debug "cloning ${SRC_GIT}/${SRC_FILE}.git in $PWD..."
-		run_cmd git clone "${SRC_GIT}/${SRC_FILE}.git" ${options}
-		if [ $? -ne 0 ]; then
-            display_debug "cloning ${SRC_GIT}/${SRC_FILE} in $PWD..."
-            run_cmd git clone "${SRC_GIT}/${SRC_FILE}" ${options}
-            if [ $? -ne 0 ]; then
-                display_fail "Cannot get file from git"
-                display_debug "<- $FUNCNAME"
-                return 1
-            fi
-		fi
-	fi
-
-	display_success "File retrieved from git"
-	display_debug "<- $FUNCNAME"
-	return 0
+	echo ""
+	echo "####################################################################################################################################"
 }
 
 # ----------------------------------------------------------------------------------------------------------------------------------------------------
@@ -219,49 +110,31 @@ do_nothing () {
 # DO U-BOOT
 # ----------------------------------------------------------------------------------------------------------------------------------------------------
 
-do_U-Boot () {
+do_uboot () {
 
-	NAME="U-Boot mainline for Raspberry Pi 3"
-	ACTION=${FUNCNAME:3}
-	HELP="$ACTION: to build $NAME (based on http://www.embeddedforu.com/embedded-linux/raspberry-pi/how-to-compile-mainline-u-boot-for-raspberry-pi/"
-	if [ $help = true ]; then return "$HELP"; fi
-	display_title "$NAME"
+	if [ $help = true ]; then return "Build U-boot for Raspberry Pi\n(url)"; fi
 
-	WHERE="$SRC/u-boot"
-
-	display_action "Set environment for $ACTION"
-
-	run_cmd export ARCH=arm
-	run_cmd export CROSS_COMPILE=arm-linux-gnueabi-
-
-	PACKAGES=( ${PACKAGES[@]} "git" "gcc-arm-linux-gnueabi")
-	if [ ${#PACKAGES[@]} -gt 0 ]; then
-		install_packages PACKAGES[@]
-		if [ $? -ne 0 ]; then
-			display_fail "Unable to install dependencies"
-			display_debug "<- $FUNCNAME"
-			return 1
-		fi
-	fi
-
-	display_success "Environment set for $ACTION"
-
-	display_action "Retrieve $ACTION"
-
+	display_action "Retrieve U boot"
 	cd $SRC
-	get_from_git . https://github.com/lburais u-boot
-	if [ $? -ne 0 ]; then
-		display_fail "Unable to retrive $ACTION"
-		display_debug "<- $FUNCNAME"
-		return 1
+	if [[ ! -d u-boot ]]; then
+		git clone git://git.denx.de/u-boot.git .
+	fi
+	
+	cd $SRC/u-boot
+	git pull
+	CHANGED_FILES=$(git diff --name-only)
+	if [[ -n $CHANGED_FILES ]]; then
+		echo -e "[\e[0;35m warn \x1B[0m] Can't update since you made changes to: \e[0;32m\n${CHANGED_FILES}\x1B[0m"
+		echo -e "Press \e[0;33m<Ctrl-C>\x1B[0m to abort compilation, \e[0;33m<Enter>\x1B[0m to ignore and continue"
+		read
+	else
+		git checkout ${LIB_TAG:- master}
 	fi
 
-	display_action "Build $ACTION"
-
-	cd $WHERE
-	run_cmd make distclean
-	run_cmd make rpi_3_defconfig
-	run_cmd make
+	display_action "Build U boot"
+	cd $SRC/u-boot
+	make rpi_3_defconfig
+	make -j8 -s
 
 	return 0
 
@@ -273,47 +146,24 @@ do_U-Boot () {
 
 do_buildroot () {
 
-	NAME="Buildroot for Raspberry Pi 3"
-	ACTION="buildroot"
-	HELP="$ACTION: to build $NAME (based on http://www.embeddedforu.com/embedded-linux/raspberry-pi/embedded-linux-development-on-raspberry-pi-using-buildroot-part1/"
-	if [ $help = true ]; then return "$HELP"; fi
-	display_title "$NAME"
+	if [ $help = true ]; then return "Buildroot\n(url)"; fi
 
-	WHERE="$SRC/buildroot"
-
-	display_action "Set environment for $ACTION"
-
-	run_cmd export ARCH=arm
-	run_cmd export CROSS_COMPILE=arm-linux-gnueabi-
-
-	PACKAGES=( ${PACKAGES[@]} "git" "cpio")
-	if [ ${#PACKAGES[@]} -gt 0 ]; then
-		install_packages PACKAGES[@]
-		if [ $? -ne 0 ]; then
-			display_fail "Unable to install dependencies"
-			display_debug "<- $FUNCNAME"
-			return 1
-		fi
-	fi
-
-	display_success "Environment set for $ACTION"
-
-	display_action "Retrieve $ACTION"
-
+	display_action "Retrieve buildroot"
 	cd $SRC
-	get_from_git . https://github.com/lburais buildroot
-	if [ $? -ne 0 ]; then
-		display_fail "Unable to retrive $ACTION"
-		display_debug "<- $FUNCNAME"
-		return 1
+	if [[ ! -d buildroot ]]; then
+		git clone https://github.com/lburais/buildroot .
 	fi
+	cd $SRC/buildroot
+		git pull
+		CHANGED_FILES=$(git diff --name-only)
+		if [[ -n $CHANGED_FILES ]]; then
+			echo -e "[\e[0;35m warn \x1B[0m] Can't update since you made changes to: \e[0;32m\n${CHANGED_FILES}\x1B[0m"
+			echo -e "Press \e[0;33m<Ctrl-C>\x1B[0m to abort compilation, \e[0;33m<Enter>\x1B[0m to ignore and continue"
+			read
+		else
+			git checkout ${LIB_TAG:- master}
+		fi
 
-	display_action "Build $ACTION"
-
-	cd $WHERE
-	run_cmd make distclean
-	run_cmd make raspberrypi2_defconfig
-	run_cmd make
 
 	return 0
 
@@ -453,38 +303,11 @@ DESCRIPTION=`cat /etc/*-release | grep DISTRIB_DESCRIPTION | sed 's/DISTRIB_DESC
 CODENAME=`cat /etc/*-release | grep DISTRIB_CODENAME | sed 's/DISTRIB_CODENAME=//' | sed 's/"//g'`
 HOST=`echo "$HOSTNAME" | tr '[:upper:]' '[:lower:]'`
 
-ODATE=$(basename "$0")
-ODATE=$(stat -c %y $ODATE)
-ODATE=${ODATE%%.*}
-
-if [[ $* == *"--debug"* ]]; then
-	set_option_debug
-fi
-
 clear
 
-display_title "OsiriS builder on ${DESCRIPTION} (${ODATE})"
+display_title "OsiriS builder on ${DESCRIPTION}"
 
 display_debug "-> main ($#): $*"
-
-# source is where OsiriS.sh is located
-SRC=$(pwd)
-logfile=$SRC/OsiriS.log
-
-if [[ ! -d $SRC/github ]]; then
-	display_error "Copy this file some level up from $SRC, alter and run again."
-	display_footer
-	exit -1
-else
-	SRC="$SRC/github"
-fi
-
-if [[ $EUID != 0 ]]; then
-	display_error "This script requires root privileges"
-	sudo "$0" "$@"
-	display_footer
-	exit $?
-fi
 
 i=0
 while [ $# -ne 0 ]
@@ -496,18 +319,13 @@ do
 	case "$arg" in
 		--help)
 		help=true
-		LIST_FUNCTIONS=`type -t * | grep function `
-		display_msg "  $LIST_FUNCTIONS"
+		display_help
 		;;
 		--silent | --debug | --nodebug | --noaction)
-		set_option_${arg:2}
+		set_option_${arg}
 		;;
-		--toto*=*)
-		echo ${arg#*=}
-		;;
-		--action | --build )
-		display_debug "parameter($i): $1"
-		arg=$1
+		--action)
+		arg=`echo "$1" | tr '[:upper:]' '[:lower:]'`
 		shift
 		((i += 1 ))
 		action=$arg
@@ -523,14 +341,12 @@ if [ $noaction = true ]; then
 fi
 
 if [ ! "${action}x" = "x" ]; then
-	EXIST=`type -t do_${action} | grep function | wc -l`
-	if [ $EXIST -ne 1 ]; then
-		display_error "function do_${action} does not exist"
-		display_footer
-		exit -1
-	else
-		do_${action}
-	fi
+EXIST=`type -t do_${action} | grep function | wc -l`
+if [ $EXIST -ne 1 ]; then
+	display_error "function do_${action} does not exist"
+else
+	display_title "OsiriS to do ${action}"
+
+	do_${action}
 fi
-display_footer
-exit 0
+fi

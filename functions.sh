@@ -748,10 +748,10 @@ get_from_git() {
 	display_debug "-> $FUNCNAME $*"
 
 	if [ $# -ne 0 ]; then
-		BUILD_DIR = $1
-		SRC_GIT = $2
-		SRC_FILE = $3
-		SRC_BRANCH = $4
+		BUILD_DIR=$1
+		SRC_GIT=$2
+		SRC_FILE=$3
+		SRC_BRANCH=$4
 	fi
 
 	if [ "x${SRC_GIT}" = "x" -o "x${SRC_FILE}" = "x" ]; then
@@ -762,11 +762,13 @@ get_from_git() {
 
 	if [ "x${SRC_BRANCH}" = "x" ]; then
 		options=""
+		SRC_BRANCH="master"
 	else
 		options="-b ${SRC_BRANCH}"
 	fi
 
 	display_action "Getting source file ${SRC_FILE} branch ${SRC_BRANCH} from git ${SRC_GIT} ..."
+
 	cd "${BUILD_DIR}"
 
 	if [ -e "${SRC_FILE}" -a $force = true ]; then
