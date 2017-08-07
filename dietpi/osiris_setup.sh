@@ -12,9 +12,9 @@ wget https://raw.githubusercontent.com/lburais/OsiriS/master/dietpi/waveshare35a
 
 wget https://raw.githubusercontent.com/jeedom/core/stable/install/install.sh
 chmod +x install.sh
-./install.sh -w jeedom
+# ./install.sh -w jeedom
 
 
 # ------ Domoticz install -----
 
-curl -L install.domoticz.com | sudo bash
+# curl -L install.domoticz.com | sudo bash
