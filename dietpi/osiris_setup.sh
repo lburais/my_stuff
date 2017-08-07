@@ -2,10 +2,10 @@
 
 # -------- Own DietPi -------
 
-wget https://github.com/lburais/OsiriS/master/dietpi/dietpi-config            -O /DietPi/dietpi/dietpi-config
-wget https://github.com/lburais/OsiriS/master/dietpi/dietpi-set_hardware      -O /DietPi/dietpi/func/dietpi-set_hardware
-wget https://github.com/lburais/OsiriS/master/dietpi/waveshare35a-overlay.dtb -O /boot/overlays/waveshare35a.dtbo
-wget https://github.com/lburais/OsiriS/master/dietpi/waveshare35a-overlay.dtb -O /boot/overlays/waveshare35a-overlay.dtb
+wget https://raw.githubusercontent.com/lburais/OsiriS/master/dietpi/dietpi-config            -O /DietPi/dietpi/dietpi-config
+wget https://raw.githubusercontent.com/lburais/OsiriS/master/dietpi/dietpi-set_hardware      -O /DietPi/dietpi/func/dietpi-set_hardware
+wget https://raw.githubusercontent.com/lburais/OsiriS/master/dietpi/waveshare35a-overlay.dtb -O /boot/overlays/waveshare35a.dtbo
+wget https://raw.githubusercontent.com/lburais/OsiriS/master/dietpi/waveshare35a-overlay.dtb -O /boot/overlays/waveshare35a-overlay.dtb
 /DietPi/dietpi/func/dietpi-set_hardware lcdpanel waveshare35a
 
 # ------ Jeedom install -----

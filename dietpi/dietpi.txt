@@ -104,7 +104,7 @@ AUTO_KeyboardLayout=fr
 #   Allows you to automatically execute a custom script at the end of DietPi installation.
 #   Option 1 = Copy your script to /boot/Automation_Custom_Script.sh and it will be executed automatically.
 #   Option 2 = Host your script online, then use AUTO_CustomScriptURL=http://myweb.com/myscript.sh , it will be downloaded and executed automatically. | 0=disabled
-AUTO_CustomScriptURL=https://github.com/lburais/OsiriS/blob/master/dietpi/osiris_setup.sh
+AUTO_CustomScriptURL=https://raw.githubusercontent.com/lburais/OsiriS/master/dietpi/osiris_setup.sh
 
 #------------------------------------------------------------------------------------------------------
 # D I E T - P I
