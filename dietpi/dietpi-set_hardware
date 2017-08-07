@@ -781,7 +781,7 @@ _EOF_
 
 			if [ "$INPUT_DEVICE_VALUE" = "waveshare32" ]; then
 				wget http://dietpi.com/downloads/conf/waveshare32b-overlay.dtb -O /boot/overlays/waveshare32b.dtbo
-			elif [ "$INPUT_DEVICE_VALUE" = "waveshare35a" ]; then
+			# elif [ "$INPUT_DEVICE_VALUE" = "waveshare35a" ]; then
 				# wget https://github.com/swkim01/waveshare-dtoverlays/blob/master/waveshare35a-overlay.dtb -O /boot/overlays/waveshare35a.dtbo
 				# wget https://github.com/swkim01/waveshare-dtoverlays/blob/master/waveshare35a-overlay.dtb -O /boot/overlays/waveshare35a-overlay.dtb
 			fi
