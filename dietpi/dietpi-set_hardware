@@ -804,7 +804,7 @@ _EOF_
 				cat << _EOF_ >> "$FP_RPI_CONFIG"
 
 #------- Waveshare 35a LCD -------
-dtoverlay=waveshare35a:rotate=270
+dtoverlay=waveshare35a:rotate=90
 ##dtoverlay=ads7846,cs=1,penirq=17,penirq_pull=2,speed=1000000,keep_vref_on=1,swapxy=1,pmax=255,xohms=60,xmin=200,xmax=3900,ymin=200,ymax=3900
 ##dtoverlay=w1-gpio-pullup,gpiopin=4,extpullup=1
 _EOF_
@@ -885,7 +885,7 @@ _EOF_
 		#RPi
 		if (( $HW_MODEL < 10 )); then # Raspberry Pi
 
-			rm /boot/overlays/waveshare*.dtbo
+			rm /boot/overlays/waveshare32*.dtb*
 			sed -i 's/ fbcon=map:10 fbcon=font:ProFont6x11 logo.nologo//' /boot/cmdline.txt
 
 			sed -i '/--- Waveshare/d' "$FP_RPI_CONFIG"
