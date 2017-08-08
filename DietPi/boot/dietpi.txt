@@ -104,7 +104,7 @@ AUTO_KeyboardLayout=fr
 #   Allows you to automatically execute a custom script at the end of DietPi installation.
 #   Option 1 = Copy your script to /boot/Automation_Custom_Script.sh and it will be executed automatically.
 #   Option 2 = Host your script online, then use AUTO_CustomScriptURL=http://myweb.com/myscript.sh , it will be downloaded and executed automatically. | 0=disabled
-AUTO_CustomScriptURL=https://raw.githubusercontent.com/lburais/OsiriS/master/dietpi/osiris_setup.sh
+AUTO_CustomScriptURL=0
 
 #------------------------------------------------------------------------------------------------------
 # D I E T - P I
@@ -172,7 +172,7 @@ serial_console_enabled=0
 soundcard=rpi-bcm2835-ultrahq
 
 #LCD Panel addon
-lcdpanel=none
+lcdpanel=waveshare35a
 
 #Prefer IPversion (for: apt-get) | auto (let system decide) / ipv4 (force) / ipv6 (force) | eg: force IPv4 with prefer_ipversion=ipv4
 prefer_ipversion=auto
