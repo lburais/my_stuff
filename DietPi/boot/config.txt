@@ -90,4 +90,4 @@ force_turbo=0
 #Note To Self, NEVER enable L2 cache, breaks most X based applications that were not compiled with L2 cache enabled.
 
 #------- Waveshare 35a LCD -------
-dtoverlay=waveshare35a:rotate=90
+dtoverlay=waveshare35a:rotate=180
