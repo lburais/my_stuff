@@ -1,0 +1,17 @@
+Private.Friends:Laurent:1
+
+Professional.CR2A-DI.Others.ICE:Laurent:12
+
+Professional.CR2A-DI.Alcatel.MCI Helios II:Laurent:386
+
+Professional.CR2A-DI:Laurent:52
+
+Professional.CR2A-DI.Alcatel.MCI Helios II.Defects:Laurent:161
+
+Professional.CR2A-DI.Alcatel.MCI Helios II.Reminders:Laurent:40
+
+Professional.CR2A-DI.Alcatel.MCO OCOE:Laurent:34
+
+Professional.CR2A-DI.Alcatel.Scoe ADCS 2000:Laurent:30
+
+Professional.CR2A-DI.Alcatel.IASI:Laurent:103

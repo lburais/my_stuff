@@ -1,2 +1,0 @@
-#Copy this file to /boot to automatically format and setup a dedicated USB drive installation with DietPi.
-#WARNING ALL DATA ON THE USB DRIVE (/dev/sda) WILL BE DELETED!

@@ -1,0 +1,157 @@
+INFO:smartsheet.smartsheet:Request: {
+command: POST https://api.smartsheet.com/2.0/sheets/import?sheetName=CX+Asks+and+Requisitions+Master+File.xlsx&headerRowIndex=0
+}
+INFO:util:object 'Sheet' is missing property 'type'
+INFO:smartsheet.smartsheet:Request: {
+command: GET https://api.smartsheet.com/2.0/sheets/4835784613226372
+}
+INFO:util:object 'Sheet' is missing property 'cell_image_upload_enabled'
+INFO:smartsheet.smartsheet:Request: {
+command: POST https://api.smartsheet.com/2.0/sheets/import?sheetName=CX+Asks+and+Requisitions+Master+File.xlsx&headerRowIndex=0
+}
+INFO:util:object 'Sheet' is missing property 'type'
+INFO:smartsheet.smartsheet:Request: {
+command: GET https://api.smartsheet.com/2.0/sheets/132633557526404
+}
+INFO:util:object 'Sheet' is missing property 'cell_image_upload_enabled'
+INFO:smartsheet.smartsheet:Request: {
+command: PUT https://api.smartsheet.com/2.0/sheets/132633557526404/rows
+}
+INFO:smartsheet.smartsheet:Request: {
+command: POST https://api.smartsheet.com/2.0/sheets/import?sheetName=CX+Asks+and+Requisitions+Master+File.xlsx&headerRowIndex=0
+}
+INFO:util:object 'Sheet' is missing property 'type'
+INFO:smartsheet.smartsheet:Request: {
+command: GET https://api.smartsheet.com/2.0/sheets/5797042585921412
+}
+INFO:util:object 'Sheet' is missing property 'cell_image_upload_enabled'
+INFO:smartsheet.smartsheet:Request: {
+command: PUT https://api.smartsheet.com/2.0/sheets/5797042585921412/rows
+}
+INFO:smartsheet.smartsheet:Request: {
+command: POST https://api.smartsheet.com/2.0/sheets/import?sheetName=CX+Asks+and+Requisitions+Master+File.xlsx&headerRowIndex=0
+}
+INFO:util:object 'Sheet' is missing property 'type'
+INFO:smartsheet.smartsheet:Request: {
+command: GET https://api.smartsheet.com/2.0/sheets/5199183138318212
+}
+INFO:util:object 'Sheet' is missing property 'cell_image_upload_enabled'
+INFO:smartsheet.smartsheet:Request: {
+command: PUT https://api.smartsheet.com/2.0/sheets/5199183138318212/rows
+}
+ERROR:smartsheet.smartsheet:Response: {
+status: 400 Bad Request
+content: {
+{
+    "errorCode": 1008,
+    "message": "Unable to parse request. The following error occurred: Field \"createdAt\" was of unexpected type.",
+    "refId": "33qw2fce3c9z"
+}
+}
+INFO:smartsheet.smartsheet:Request: {
+command: POST https://api.smartsheet.com/2.0/sheets/import?sheetName=CX+Asks+and+Requisitions+Master+File.xlsx&headerRowIndex=0
+}
+INFO:util:object 'Sheet' is missing property 'type'
+INFO:smartsheet.smartsheet:Request: {
+command: GET https://api.smartsheet.com/2.0/sheets/4789615056971652
+}
+INFO:util:object 'Sheet' is missing property 'cell_image_upload_enabled'
+INFO:smartsheet.smartsheet:Request: {
+command: POST https://api.smartsheet.com/2.0/sheets/import?sheetName=CX+Asks+and+Requisitions+Master+File.xlsx&headerRowIndex=0
+}
+INFO:util:object 'Sheet' is missing property 'type'
+INFO:smartsheet.smartsheet:Request: {
+command: GET https://api.smartsheet.com/2.0/sheets/6325083045160836
+}
+INFO:util:object 'Sheet' is missing property 'cell_image_upload_enabled'
+INFO:smartsheet.smartsheet:Request: {
+command: POST https://api.smartsheet.com/2.0/sheets/import?sheetName=CX+Asks+and+Requisitions+Master+File.xlsx&headerRowIndex=0
+}
+INFO:util:object 'Sheet' is missing property 'type'
+INFO:smartsheet.smartsheet:Request: {
+command: GET https://api.smartsheet.com/2.0/sheets/3177181254838148
+}
+INFO:util:object 'Sheet' is missing property 'cell_image_upload_enabled'
+INFO:smartsheet.smartsheet:Request: {
+command: POST https://api.smartsheet.com/2.0/sheets/import?sheetName=CX+Asks+and+Requisitions+Master+File.xlsx&headerRowIndex=0
+}
+INFO:util:object 'Sheet' is missing property 'type'
+INFO:smartsheet.smartsheet:Request: {
+command: GET https://api.smartsheet.com/2.0/sheets/2051281347995524
+}
+INFO:util:object 'Sheet' is missing property 'cell_image_upload_enabled'
+INFO:smartsheet.smartsheet:Request: {
+command: PUT https://api.smartsheet.com/2.0/sheets/2051281347995524/rows
+}
+ERROR:smartsheet.smartsheet:Response: {
+status: 400 Bad Request
+content: {
+{
+    "errorCode": 1008,
+    "message": "Unable to parse request. The following error occurred: Field \"createdAt\" was of unexpected type.",
+    "refId": "1jwk04drv5fvr"
+}
+}
+INFO:smartsheet.smartsheet:Request: {
+command: POST https://api.smartsheet.com/2.0/sheets/import?sheetName=CX+Asks+and+Requisitions+Master+File.xlsx&headerRowIndex=0
+}
+INFO:util:object 'Sheet' is missing property 'type'
+INFO:smartsheet.smartsheet:Request: {
+command: GET https://api.smartsheet.com/2.0/sheets/8072746845398916
+}
+INFO:util:object 'Sheet' is missing property 'cell_image_upload_enabled'
+INFO:smartsheet.smartsheet:Request: {
+command: PUT https://api.smartsheet.com/2.0/sheets/8072746845398916/rows
+}
+ERROR:smartsheet.smartsheet:Response: {
+status: 400 Bad Request
+content: {
+{
+    "errorCode": 1008,
+    "message": "Unable to parse request. The following error occurred: Field \"createdAt\" was of unexpected type.",
+    "refId": "1w3mgwdk8g27u"
+}
+}
+INFO:smartsheet.smartsheet:Request: {
+command: POST https://api.smartsheet.com/2.0/sheets/import?sheetName=CX+Asks+and+Requisitions+Master+File.xlsx&headerRowIndex=0
+}
+INFO:util:object 'Sheet' is missing property 'type'
+INFO:smartsheet.smartsheet:Request: {
+command: GET https://api.smartsheet.com/2.0/sheets/1750348827256708
+}
+INFO:util:object 'Sheet' is missing property 'cell_image_upload_enabled'
+INFO:smartsheet.smartsheet:Request: {
+command: GET https://api.smartsheet.com/2.0/sheets
+}
+INFO:smartsheet.smartsheet:Request: {
+command: POST https://api.smartsheet.com/2.0/sheets/import?sheetName=CX+Asks+and+Requisitions+Master+File.xlsx&headerRowIndex=0
+}
+INFO:util:object 'Sheet' is missing property 'type'
+INFO:smartsheet.smartsheet:Request: {
+command: GET https://api.smartsheet.com/2.0/sheets/6641467516053380
+}
+INFO:util:object 'Sheet' is missing property 'cell_image_upload_enabled'
+INFO:smartsheet.smartsheet:Request: {
+command: GET https://api.smartsheet.com/2.0/sheets
+}
+INFO:smartsheet.smartsheet:Request: {
+command: GET https://api.smartsheet.com/2.0/sheets/8732326315222916
+}
+INFO:util:object 'Sheet' is missing property 'cell_image_upload_enabled'
+INFO:smartsheet.smartsheet:Request: {
+command: GET https://api.smartsheet.com/2.0/sheets/1162357067016068
+}
+INFO:util:object 'Sheet' is missing property 'cell_image_upload_enabled'
+INFO:util:object 'Sheet' is missing property 'workspace'
+INFO:smartsheet.smartsheet:Request: {
+command: PUT https://api.smartsheet.com/2.0/sheets/6641467516053380/rows
+}
+ERROR:smartsheet.smartsheet:Response: {
+status: 400 Bad Request
+content: {
+{
+    "errorCode": 1008,
+    "message": "Unable to parse request. The following error occurred: Field \"createdAt\" was of unexpected type.",
+    "refId": "kgl4il9oguj6"
+}
+}

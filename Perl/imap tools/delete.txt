@@ -1,0 +1,10 @@
+#! /bin/bash
+cat pharaoh.txt | grep "/Global Operations Strategy and Planning/Budget Management Stuff/Financials" | grep "(0 msg" | sed "s+   (0 msg.*++" > tmp.txt
+
+while read mbx
+do
+nb=$(expr `imap-list pharaoh "$mbx" | wc -l` / 3)
+echo "mbx($nb): $mbx"
+imap-folder pharaoh delete "$mbx"
+done < tmp.txt
+

@@ -1,0 +1,15 @@
+#! /bin/bash
+basesrcfolder="Professional"
+
+imap-list-folders pharaoh | grep "$basesrcfolder" > tmp.txt
+
+action=0
+
+while read mbx
+do
+
+echo "mbx: $mbx"
+
+imap-mark pharaoh "$mbx" read
+
+done < tmp.txt

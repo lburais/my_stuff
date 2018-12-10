@@ -1,0 +1,207 @@
+#! /bin/bash
+
+mkdir $HOME/etc
+echo "[pharaoh]" > $HOME/etc/imap.conf
+echo "    user = Laurent" >> $HOME/etc/imap.conf
+echo "    pass = Jrdl6468" >> $HOME/etc/imap.conf
+echo "    host = 192.168.40.2" >> $HOME/etc/imap.conf
+echo "    ssl = 1" >> $HOME/etc/imap.conf
+
+basesrcfolder="Professional/Cisco Systems/Customer eXperience/CX Operations and Renewals/Global Business Operations/Global Operations Strategy and Planning/Budget Management/Budget Alignment and Control/Headcounts - Requisitions - Contracted Services/Process"
+basedstfolder="Professional/Cisco Systems/Customer eXperience/CX Operations and Renewals/Global Business Operations/Global Operations Strategy and Planning/Budget Management/Budget Alignment and Control/Requisitions/Process"
+
+imap-list-folders pharaoh | grep "$basesrcfolder" > tmp.txt
+
+action=1
+
+while read mbx
+do
+srcfolder=$mbx
+dstfolder=`echo $mbx | sed "s:$basesrcfolder:$basedstfolder:" `
+
+echo "mbx: $mbx"
+echo "src: $srcfolder"
+echo "dst: $dstfolder"
+
+if [ $action == 1 ]
+  then
+	imap-folder pharaoh create "$dstfolder"
+fi
+nb=$(expr `imap-list pharaoh "$srcfolder" | wc -l` / 3)
+echo "nb src: $nb"
+if [ $action == 1 ]
+  then imap-move pharaoh "$srcfolder" "$dstfolder"
+fi
+nb=$(expr `imap-list pharaoh "$srcfolder" | wc -l` / 3)
+echo "nb src: $nb"
+nb=$(expr `imap-list pharaoh "$dstfolder" | wc -l` / 3)
+echo "nb dst: $nb"
+
+echo ""
+
+done < tmp.txt
+
+basesrcfolder="Professional/Cisco Systems/Customer eXperience/CX Operations and Renewals/Global Business Operations/Global Operations Strategy and Planning/Budget Management/Tmp/Asks/Americas/Enterprise"
+basedstfolder="Professional/Cisco Systems/Customer eXperience/CX Operations and Renewals/Global Business Operations/Global Operations Strategy and Planning/Budget Management/Budget Alignment and Control/Requisitions/Asks/Americas/Enterprise"
+
+imap-list-folders pharaoh | grep "$basesrcfolder" > tmp.txt
+
+action=1
+
+while read mbx
+do
+srcfolder=$mbx
+dstfolder=`echo $mbx | sed "s:$basesrcfolder:$basedstfolder:" `
+
+echo "mbx: $mbx"
+echo "src: $srcfolder"
+echo "dst: $dstfolder"
+
+if [ $action == 1 ]
+  then
+	imap-folder pharaoh create "$dstfolder"
+fi
+nb=$(expr `imap-list pharaoh "$srcfolder" | wc -l` / 3)
+echo "nb src: $nb"
+if [ $action == 1 ]
+  then imap-move pharaoh "$srcfolder" "$dstfolder"
+fi
+nb=$(expr `imap-list pharaoh "$srcfolder" | wc -l` / 3)
+echo "nb src: $nb"
+nb=$(expr `imap-list pharaoh "$dstfolder" | wc -l` / 3)
+echo "nb dst: $nb"
+
+echo ""
+
+done < tmp.txt
+
+basesrcfolder="Professional/Cisco Systems/Customer eXperience/CX Operations and Renewals/Global Business Operations/Global Operations Strategy and Planning/Budget Management/Tmp/Asks"
+basedstfolder="Professional/Cisco Systems/Customer eXperience/CX Operations and Renewals/Global Business Operations/Global Operations Strategy and Planning/Budget Management/Budget Alignment and Control/Requisitions/Asks"
+
+srcfolder="$basesrcfolder/Global CX Centers"
+dstfolder=`echo $srcfolder | sed "s:$basesrcfolder:$basedstfolder:" `
+imap-folder pharaoh create "$dstfolder"
+imap-move pharaoh "$srcfolder" "$dstfolder"
+nb=$(expr `imap-list pharaoh "$srcfolder" | wc -l` / 3)
+echo "nb src: $nb"
+nb=$(expr `imap-list pharaoh "$dstfolder" | wc -l` / 3)
+echo "nb dst: $nb"
+
+srcfolder="$basesrcfolder/Global CX Centers/ADC"
+dstfolder=`echo $srcfolder | sed "s:$basesrcfolder:$basedstfolder:" `
+imap-folder pharaoh create "$dstfolder"
+imap-move pharaoh "$srcfolder" "$dstfolder"
+nb=$(expr `imap-list pharaoh "$srcfolder" | wc -l` / 3)
+echo "nb src: $nb"
+nb=$(expr `imap-list pharaoh "$dstfolder" | wc -l` / 3)
+echo "nb dst: $nb"
+
+srcfolder="$basesrcfolder/OVH/CX CoS and Transformation"
+dstfolder=`echo $srcfolder | sed "s:$basesrcfolder:$basedstfolder:" `
+imap-folder pharaoh create "$dstfolder"
+imap-move pharaoh "$srcfolder" "$dstfolder"
+nb=$(expr `imap-list pharaoh "$srcfolder" | wc -l` / 3)
+echo "nb src: $nb"
+nb=$(expr `imap-list pharaoh "$dstfolder" | wc -l` / 3)
+echo "nb dst: $nb"
+
+srcfolder="$basesrcfolder/OVH/CX Operations and Renewals"
+dstfolder=`echo $srcfolder | sed "s:$basesrcfolder:$basedstfolder:" `
+imap-folder pharaoh create "$dstfolder"
+imap-move pharaoh "$srcfolder" "$dstfolder"
+nb=$(expr `imap-list pharaoh "$srcfolder" | wc -l` / 3)
+echo "nb src: $nb"
+nb=$(expr `imap-list pharaoh "$dstfolder" | wc -l` / 3)
+echo "nb dst: $nb"
+
+srcfolder="$basesrcfolder/OVH/CX Platforms"
+dstfolder=`echo $srcfolder | sed "s:$basesrcfolder:$basedstfolder:" `
+imap-folder pharaoh create "$dstfolder"
+imap-move pharaoh "$srcfolder" "$dstfolder"
+nb=$(expr `imap-list pharaoh "$srcfolder" | wc -l` / 3)
+echo "nb src: $nb"
+nb=$(expr `imap-list pharaoh "$dstfolder" | wc -l` / 3)
+echo "nb dst: $nb"
+
+srcfolder="$basesrcfolder/OVH/CX Product Management"
+dstfolder=`echo $srcfolder | sed "s:$basesrcfolder:$basedstfolder:" `
+imap-folder pharaoh create "$dstfolder"
+imap-move pharaoh "$srcfolder" "$dstfolder"
+nb=$(expr `imap-list pharaoh "$srcfolder" | wc -l` / 3)
+echo "nb src: $nb"
+nb=$(expr `imap-list pharaoh "$dstfolder" | wc -l` / 3)
+echo "nb dst: $nb"
+
+srcfolder="$basesrcfolder/OVH/CX Strategy and Portfolio"
+dstfolder=`echo $srcfolder | sed "s:$basesrcfolder:$basedstfolder:" `
+imap-folder pharaoh create "$dstfolder"
+imap-move pharaoh "$srcfolder" "$dstfolder"
+nb=$(expr `imap-list pharaoh "$srcfolder" | wc -l` / 3)
+echo "nb src: $nb"
+nb=$(expr `imap-list pharaoh "$dstfolder" | wc -l` / 3)
+echo "nb dst: $nb"
+
+
+srcfolder="Professional/Cisco Systems/Customer eXperience/CX Operations and Renewals/Global Business Operations/Global Operations Strategy and Planning/Budget Management/Tmp/HiringSpace approvals"
+dstfolder="Professional/Cisco Systems/Customer eXperience/CX Operations and Renewals/Global Business Operations/Global Operations Strategy and Planning/Budget Management/Budget Alignment and Control/Requisitions/HiringSpace approvals"
+imap-folder pharaoh create "$dstfolder"
+imap-move pharaoh "$srcfolder" "$dstfolder"
+nb=$(expr `imap-list pharaoh "$srcfolder" | wc -l` / 3)
+echo "nb src: $nb"
+nb=$(expr `imap-list pharaoh "$dstfolder" | wc -l` / 3)
+echo "nb dst: $nb"
+
+srcfolder="Professional/Cisco Systems/Customer eXperience/CX Operations and Renewals/Global Business Operations/Global Operations Strategy and Planning/Budget Management/Tmp/Process/Contracted Services Process"
+dstfolder="Professional/Cisco Systems/Customer eXperience/CX Operations and Renewals/Global Business Operations/Global Operations Strategy and Planning/Budget Management/Budget Alignment and Control/Contracted Services/Process"
+imap-folder pharaoh create "$dstfolder"
+imap-move pharaoh "$srcfolder" "$dstfolder"
+nb=$(expr `imap-list pharaoh "$srcfolder" | wc -l` / 3)
+echo "nb src: $nb"
+nb=$(expr `imap-list pharaoh "$dstfolder" | wc -l` / 3)
+echo "nb dst: $nb"
+
+srcfolder="Professional/Cisco Systems/Customer eXperience/CX Operations and Renewals/Global Business Operations/Global Operations Strategy and Planning/Budget Management/Tmp/Process/Requisitions Process"
+dstfolder="Professional/Cisco Systems/Customer eXperience/CX Operations and Renewals/Global Business Operations/Global Operations Strategy and Planning/Budget Management/Budget Alignment and Control/Requisitions/Process"
+imap-folder pharaoh create "$dstfolder"
+imap-move pharaoh "$srcfolder" "$dstfolder"
+nb=$(expr `imap-list pharaoh "$srcfolder" | wc -l` / 3)
+echo "nb src: $nb"
+nb=$(expr `imap-list pharaoh "$dstfolder" | wc -l` / 3)
+echo "nb dst: $nb"
+
+srcfolder="Professional/Cisco Systems/Customer eXperience/CX Operations and Renewals/Global Business Operations/Global Operations Strategy and Planning/Budget Management/Tmp/Reports/Headcount Outlook"
+dstfolder="Professional/Cisco Systems/Customer eXperience/CX Operations and Renewals/Global Business Operations/Global Operations Strategy and Planning/Budget Management/Budget Alignment and Control/Requisitions/Reports/Headcount Outlook"
+imap-folder pharaoh create "$dstfolder"
+imap-move pharaoh "$srcfolder" "$dstfolder"
+nb=$(expr `imap-list pharaoh "$srcfolder" | wc -l` / 3)
+echo "nb src: $nb"
+nb=$(expr `imap-list pharaoh "$dstfolder" | wc -l` / 3)
+echo "nb dst: $nb"
+
+exit
+
+server=192.168.40.2/Laurent/Jrdl6468
+
+basesrcfolder="Professional/Cisco Systems/Customer eXperience/CX Operations and Renewals/Global Business Operations"
+
+./list_imap_folders.pl -S $server | grep "$basesrcfolder" > pharaoh-short.txt
+
+delfolder="Professional/Cisco Systems/Customer eXperience/CX Operations and Renewals/Global Business Operations/Global Operations Strategy and Planning/Budget Management/Budget Management Stuff/Temp/Sales Strategy"
+cat pharaoh-short.txt | grep "$delfolder" > tmp.txt
+
+while read mbx
+do
+nb=$(expr `imap-list pharaoh "$mbx" | wc -l` / 3)
+echo "delete mbx($nb): $mbx"
+imap-folder pharaoh delete "$mbx"
+done < tmp.txt
+
+delfolder="Professional/Cisco Systems/Customer eXperience/CX Operations and Renewals/Global Business Operations/Global Operations Strategy and Planning/Budget Management/Headcounts - Requisitions - Contracted Services"
+cat pharaoh-short.txt | grep "$delfolder" > tmp.txt
+
+while read mbx
+do
+nb=$(expr `imap-list pharaoh "$mbx" | wc -l` / 3)
+echo "delete mbx($nb): $mbx"
+imap-folder pharaoh delete "$mbx"
+done < tmp.txt

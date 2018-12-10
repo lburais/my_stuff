@@ -1,0 +1,42 @@
+#! /bin/bash
+
+mkdir $HOME/etc
+echo "[pharaoh]" > $HOME/etc/imap.conf
+echo "    user = Laurent" >> $HOME/etc/imap.conf
+echo "    pass = Jrdl6468" >> $HOME/etc/imap.conf
+echo "    host = 192.168.40.2" >> $HOME/etc/imap.conf
+echo "    ssl = 1" >> $HOME/etc/imap.conf
+
+basesrcfolder="Professional/Cisco Systems/Customer eXperience/CX Operations and Renewals/Global Business Operations/Global Operations Strategy and Planning/Budget Management/Sales Strategy/Pricing"
+basedstfolder="Professional/Cisco Systems/Customer eXperience/CX Operations and Renewals/Global Business Operations/Global Operations Strategy and Planning/Budget Management/Budget Management Stuff/Sales Strategy/Pricing"
+
+imap-list-folders pharaoh | grep "$basesrcfolder" > tmp.txt
+
+action=1
+
+while read mbx
+do
+srcfolder=$mbx
+dstfolder=`echo $mbx | sed "s:$basesrcfolder:$basedstfolder:" `
+
+echo "mbx: $mbx"
+echo "src: $srcfolder"
+echo "dst: $dstfolder"
+
+if [ $action == 1 ]
+  then
+	imap-folder pharaoh create "$dstfolder"
+fi
+nb=$(expr `imap-list pharaoh "$srcfolder" | wc -l` / 3)
+echo "nb src: $nb"
+if [ $action == 1 ]
+  then imap-move pharaoh "$srcfolder" "$dstfolder"
+fi
+nb=$(expr `imap-list pharaoh "$srcfolder" | wc -l` / 3)
+echo "nb src: $nb"
+nb=$(expr `imap-list pharaoh "$dstfolder" | wc -l` / 3)
+echo "nb dst: $nb"
+
+echo ""
+
+done < tmp.txt

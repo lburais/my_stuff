@@ -1,0 +1,23 @@
+INFO:smartsheet.smartsheet:Request: {
+command: POST https://api.smartsheet.com/2.0/sheets/import?sheetName=Sample+Sheet.xlsx&headerRowIndex=0
+}
+INFO:util:object 'Sheet' is missing property 'type'
+INFO:smartsheet.smartsheet:Request: {
+command: GET https://api.smartsheet.com/2.0/sheets/3572936721360772
+}
+INFO:util:object 'Sheet' is missing property 'cell_image_upload_enabled'
+INFO:smartsheet.smartsheet:Request: {
+command: PUT https://api.smartsheet.com/2.0/sheets/3572936721360772/rows
+}
+INFO:smartsheet.smartsheet:Request: {
+command: POST https://api.smartsheet.com/2.0/sheets/import?sheetName=CX+Requisitions+Master+File.xlsb&headerRowIndex=0
+}
+ERROR:smartsheet.smartsheet:Response: {
+status: 500 Internal Server Error
+content: {
+{
+    "errorCode": 4002,
+    "message": "Server timeout exceeded. Request has failed.",
+    "refId": "7nkhybkgphud"
+}
+}

@@ -1,0 +1,3 @@
+INFO:smartsheet.smartsheet:Request: {
+command: GET https://api.smartsheet.com/2.0/home/folders
+}

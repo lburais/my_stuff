@@ -1,0 +1,52 @@
+#!/usr/bin/env perl
+use Modern::Perl '2012';
+no warnings 'experimental::smartmatch';
+
+use IMAP::Tools;
+use Pod::Usage;
+
+my $account  = shift;
+my $from     = shift;
+my $to       = shift;
+my $subset   = shift;
+my $amount   = shift;
+
+pod2usage() if $account eq '-h';
+
+my $tools  = IMAP::Tools->new();
+my $client = $tools->login_to_imap_server( $account );
+
+$from = $tools->imap_folder( $from );
+$to   = $tools->imap_folder( $to );
+
+# check the folders exist, leaving us in the "from" folder
+$client->select( $to )
+    or die $client->last_error;
+$client->select( $from )
+    or die $client->last_error;
+
+my @ids;
+given ( $subset ) {
+    when ('newest') { @ids = $tools->get_newest_ids( $amount ); }
+    when ('oldest') { @ids = $tools->get_oldest_ids( $amount ); }
+    when ('random') { @ids = $tools->get_random_ids( $amount ); }
+    default         { @ids = $tools->get_all_ids();             }
+}
+
+if ( @ids ) {
+    $client->del_flags( \@ids, $tools->SEEN_FLAG )
+        or die $client->last_error;
+    $client->copy( \@ids, $to )
+        or die $client->last_error;
+    $client->add_flags( \@ids, $tools->DELETED_FLAG )
+        or die $client->last_error;
+    $client->expunge
+        or die $client->last_error;
+}
+exit;
+
+__END__
+
+=head1 SYNOPSIS
+
+imap-move <account> <from> <to> [<subset> [<count>]]

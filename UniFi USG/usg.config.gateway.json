@@ -1,0 +1,130 @@
+{
+        "interfaces": {
+                "ethernet": {
+                        "eth0": {
+                                "description": "ISP",
+                                "duplex": "auto",
+                                "speed": "auto",
+                                "vif": {
+                                        "832": {
+                                                "address": [
+                                                        "dhcp"
+                                                ],
+                                                "description": "ISP_DATA",
+                                                "dhcp-options": {
+                                                        "client-option": [
+                                                                "retry 60;",
+                                                                "send vendor-class-identifier &quot;sagem&quot;;",
+                                                                "send user-class &quot;+FSVDSL_livebox.Internet.softathome.Livebox4&quot;;",
+                                                                "send rfc3118-auth 00:00:00:00:00:00:00:00:00:00:00:66:74:69:2f:62:36:77:74:39:67:37;",
+                                                                "request subnet-mask, routers, domain-name-servers, domain-name, broadcast-address, dhcp-lease-time, dhcp-renewal-time, dhcp-rebinding-time, rfc3118-auth;",
+                                                                "send rfc3118-auth 00:00:00:00:00:00:00:00:00:00:00:1a:09:00:00:05:58:01:03:41:01:0d:66:74:69:2f:62:36:77:74:39:67:37;"
+                                                        ],
+                                                        "default-route": "update",
+                                                        "default-route-distance": "210",
+                                                        "name-server": "update"
+                                                },
+                                                "egress-qos": "0:0 1:0 2:0 3:0 4:0 5:0 6:6 7:0",
+                                                "firewall": {
+                                                        "in": {
+                                                                "name": "WAN_IN"
+                                                        },
+                                                        "local": {
+                                                                "name": "WAN_LOCAL"
+                                                        },
+                                                        "out": {
+                                                                "name": "WAN_OUT"
+                                                        }
+                                                }
+                                      },
+                                        "838": {
+                                                "address": [
+                                                        "dhcp"
+                                                ],
+                                                "description": "ISP_TV_VOD",
+                                                "dhcp-options": {
+                                                        "client-option": [
+                                                                "send vendor-class-identifier &quot;sagem&quot;;",
+                                                                "send dhcp-client-identifier 1:B8:26:6C:F2:B3:26;",
+                                                                "request subnet-mask, routers, rfc3442-classless-static-routes;"
+                                                        ],
+                                                        "default-route": "no-update",
+                                                        "default-route-distance": "210",
+                                                        "name-server": "update"
+                                                },
+                                                "egress-qos": "0:4 1:4 2:4 3:4 4:4 5:4 6:4 7:4"
+                                        },
+                                        "840": {
+                                                "address": [
+                                                        "192.168.255.254/24"
+                                                ],
+                                                "description": "ISP_TV_STREAM",
+                                                "egress-qos": "0:5 1:5 2:5 3:5 4:5 5:5 6:5 7:5"
+                                        }
+                                }
+                        }
+                }
+        },
+        "firewall": {
+                "source-validation": "disable"
+        },
+        "protocols": {
+                "igmp-proxy": {
+                        "interface": {
+                                "eth0": {
+                                        "role": "disabled",
+                                        "threshold": "1"
+                                },
+                                "eth0.832": {
+                                        "role": "disabled",
+                                        "threshold": "1"
+                                },
+                                "eth0.838": {
+                                        "role": "disabled",
+                                        "threshold": "1"
+                                },
+                                "eth0.840": {
+                                        "alt-subnet": [
+                                                "0.0.0.0/0"
+                                        ],
+                                        "role": "upstream",
+                                        "threshold": "1"
+                                },
+                                "eth1": {
+                                        "role": "disabled",
+                                        "threshold": "1"
+                                },
+                                "eth2": {
+                                        "alt-subnet": [
+                                                "0.0.0.0/0"
+                                        ],
+                                        "role": "downstream",
+                                        "threshold": "1"
+                                }
+                        }
+                }
+        },
+        "port-forward": {
+                       "wan-interface": "eth0.832"
+               },
+        "service": {
+                "nat": {
+                        "rule": {
+                                "6010": {
+                                        "description": "MASQ LAN to WAN",
+                                        "log": "disable",
+                                        "outbound-interface": "eth0.832",
+                                        "protocol": "all",
+                                        "type": "masquerade"
+                                },
+                                "6011": {
+                                        "description": "MASQ TV to WAN",
+                                        "log": "disable",
+                                        "outbound-interface": "eth0.838",
+                                        "protocol": "all",
+                                        "type": "masquerade"
+                                }
+                        }
+                }
+              }
+}
