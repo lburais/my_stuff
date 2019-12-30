@@ -1,8 +1,2 @@
-#! /bin/bash
-
-server=192.168.40.2/Laurent/Jrdl6468
-
-basesrcfolder="Professional/Cisco Systems/Customer eXperience/CX Operations and Renewals/Global Business Operations"
-
-./list_imap_folders.pl -s -S $server | grep "$basesrcfolder" > pharaoh.txt
-cat pharaoh.txt | grep "(0 msg" | sed "s+   (0 msg.*++" > pharaoh-zero.txt
+Professional.Archives.Archive 2000
+Professional.Archives.Archive 2000.Former organizations
