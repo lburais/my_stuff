@@ -5,7 +5,7 @@ set apptitle to "Export Albums and Folders to Disk"
 
 global gDest
 set allowUserToDest to false as boolean
-set gDest to "/Volumes/photo" as POSIX file as text -- the destination folder (use a valid path)
+set gDest to "/Volumes/media/photo" as POSIX file as text -- the destination folder (use a valid path)
 
 global gSmartAlbum
 set gSmartAlbum to "Photos in"
