@@ -1,6 +1,5 @@
 @eaDir/
 .DS_Store
-
 python/iCloud/backup/
 python/iCloud/Drive/
-
+.DS_Store
