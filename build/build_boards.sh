@@ -4,8 +4,6 @@ clear
 
 source functions.#!/bin/sh
 
-
-
 clean=false
 debug=false
 force=false
