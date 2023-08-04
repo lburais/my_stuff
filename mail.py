@@ -5,6 +5,8 @@ import numpy as np
 import re
 import openpyxl
 
+from tabulate import tabulate
+
 def parse_imap( host, user, password ):
     # http://tech.franzone.blog/2012/11/29/counting-messages-in-imap-folders-in-python/
 
@@ -87,25 +89,28 @@ df_laurent = parse_imap( 'horus.local', 'Laurent', 'Jrdl6468$' )
 df_laurent['Folder'] = df_laurent['Folder'].str.replace('"', '')
 df_laurent.rename( columns={ 'Count': '# Laurent', 'Size': 'Laurent'}, inplace=True )
 
-df_famille = parse_imap( 'horus.local', 'Famille', 'Burais12345!!' )
-df_famille['Folder'] = df_famille['Folder'].str.replace('"', '')
-df_famille.rename( columns={ 'Count': '# Famille', 'Size': 'Famille'}, inplace=True )
+# df_famille = parse_imap( 'horus.local', 'Famille', 'Burais12345!!' )
+# df_famille['Folder'] = df_famille['Folder'].str.replace('"', '')
+# df_famille.rename( columns={ 'Count': '# Famille', 'Size': 'Famille'}, inplace=True )
 
-df_summary = df_laurent.merge( df_famille, on=["Folder"], how="outer" )
+#df_summary = df_laurent.merge( df_famille, on=["Folder"], how="outer" )
+df_summary = df_laurent
 
-df_summary['# Pharaoh'] = np.NaN
-df_summary.loc[df_summary['# Laurent'].isna() & ~df_summary['# Famille'].isna(), '# Pharaoh'] = df_summary['# Famille']
-df_summary.loc[~df_summary['# Laurent'].isna() & df_summary['# Famille'].isna(), '# Pharaoh'] = df_summary['# Laurent']
+# df_summary['# Pharaoh'] = np.NaN
+# df_summary.loc[df_summary['# Laurent'].isna() & ~df_summary['# Famille'].isna(), '# Pharaoh'] = df_summary['# Famille']
+# df_summary.loc[~df_summary['# Laurent'].isna() & df_summary['# Famille'].isna(), '# Pharaoh'] = df_summary['# Laurent']
 
-df_summary['Pharaoh'] = np.NaN
-df_summary.loc[df_summary['Laurent'].isna() & ~df_summary['Famille'].isna(), 'Pharaoh'] = df_summary['Famille']
-df_summary.loc[~df_summary['Laurent'].isna() & df_summary['Famille'].isna(), 'Pharaoh'] = df_summary['Laurent']
+# df_summary['Pharaoh'] = np.NaN
+# df_summary.loc[df_summary['Laurent'].isna() & ~df_summary['Famille'].isna(), 'Pharaoh'] = df_summary['Famille']
+# df_summary.loc[~df_summary['Laurent'].isna() & df_summary['Famille'].isna(), 'Pharaoh'] = df_summary['Laurent']
+
+df_summary.rename( columns={ '# Laurent': '# Pharaoh', 'Laurent': 'Pharaoh'}, inplace=True )
 
 df_summary = df_summary.merge( df_icloud, on=["Folder"], how="outer" )
 
 df_summary['Status'] = np.NaN
 
-df_summary.loc[~df_summary['# Laurent'].isna() & ~df_summary['# Famille'].isna(), 'Status'] = 'Pharaoh KO'
+#df_summary.loc[~df_summary['# Laurent'].isna() & ~df_summary['# Famille'].isna(), 'Status'] = 'Pharaoh KO'
 
 cond = df_summary['Status'].isna()
 cond &= ~df_summary['# iCloud'].isna()
@@ -142,7 +147,12 @@ cond &= ~(df_summary['# Pharaoh'] == df_summary['# iCloud'])
 cond &= ~((df_summary['# Pharaoh'] < df_summary['# iCloud']) | (df_summary['Pharaoh'] < df_summary['iCloud']))
 df_summary.loc[cond, 'Status'] = 'Transfer KO ?'
 
-filename = "imap 03AUG23 0900.xlsx"
+cond = df_summary['Status'].isna()
+cond &= df_summary['# iCloud'].isna()
+cond &= ~df_summary['# Pharaoh'].isna()
+df_summary.loc[cond, 'Status'] = 'To be transferred'
+
+filename = "imap OLD.xlsx"
 
 if os.path.exists( filename ):
 
@@ -166,6 +176,9 @@ if os.path.exists( filename ):
 
 df_summary.sort_values( by=['Folder'], inplace=True )
 df_summary.to_excel("imap.xlsx")  
+
+print( tabulate( df_summary[df_summary['Status'].isin(['Transfer KO ?', 'To be transferred', 'Transfer KO' ])], headers='keys', tablefmt='simple_grid', floatfmt=".0f", intfmt=" ") )
+print( len(df_summary[df_summary['Status'].isin(['Transfer KO ?', 'To be transferred', 'Transfer KO' ])]))
 
 os.system(f'open "imap.xlsx"')
 

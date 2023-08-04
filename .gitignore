@@ -6,3 +6,4 @@ venv/
 cc2538-bsl/
 *.xlsx
 .DS_Store
+._*
