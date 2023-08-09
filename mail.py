@@ -7,7 +7,7 @@ import openpyxl
 
 from tabulate import tabulate
 
-def parse_imap( host, user, password ):
+def parse_imap( src, host, user, password ):
     # http://tech.franzone.blog/2012/11/29/counting-messages-in-imap-folders-in-python/
 
     imap = None
@@ -61,7 +61,7 @@ def parse_imap( host, user, password ):
                                 #print('  - size: {:.1f} MB'.format(size/1024/1024))
 
                         # Add to list
-                        print('{} - {} messages - {:.1f} MB'.format(name, mycount, size/1024/1024))
+                        print('[{}] {} - {} msg - {:.1f} MB'.format(src, name, mycount, size/1024/1024))
                         folders += [[ name, mycount, size ]]
 
                     except Exception as e:
@@ -80,37 +80,60 @@ def parse_imap( host, user, password ):
 
     return df
 
-df_icloud= parse_imap( 'imap.mail.me.com', 'lburais@icloud.com', 'wrfe-tpdj-ebtt-bwel' )
-df_icloud['Folder'] = df_icloud['Folder'].str.replace("/", ".")
-df_icloud['Folder'] = df_icloud['Folder'].str.replace('"', '')
-df_icloud.rename( columns={ 'Count': '# iCloud', 'Size': 'iCloud'}, inplace=True )
+# ICLOUD
 
-df_laurent = parse_imap( 'horus.local', 'Laurent', 'Jrdl6468$' )
+df_licloud= parse_imap( 'iCloud D', 'imap.mail.me.com', 'dburais@icloud.com', 'nhgf-pncn-vcuv-hzwl' )
+df_licloud['Folder'] = df_licloud['Folder'].str.replace("/", ".")
+df_licloud['Folder'] = df_licloud['Folder'].str.replace('"', '')
+df_licloud.rename( columns={ 'Count': '# iCloud Laurent', 'Size': 'iCloud Laurent'}, inplace=True )
+
+df_dicloud= parse_imap( 'iCloud L', 'imap.mail.me.com', 'lburais@icloud.com', 'wrfe-tpdj-ebtt-bwel' )
+df_dicloud['Folder'] = df_dicloud['Folder'].str.replace("/", ".")
+df_dicloud['Folder'] = df_dicloud['Folder'].str.replace('"', '')
+df_dicloud.rename( columns={ 'Count': '# iCloud Domi', 'Size': 'iCloud Domi'}, inplace=True )
+
+df_icloud = df_licloud.merge( df_dicloud, on=["Folder"], how="outer" )
+
+df_icloud['# iCloud'] = np.NaN
+df_icloud.loc[df_icloud['# iCloud Pharaoh'].isna() & ~df_icloud['# iCloud Laurent'].isna(), '# iCloud'] = df_icloud['# iCloud Laurent']
+df_icloud.loc[df_icloud['# iCloud Pharaoh'].isna() & ~df_icloud['# iCloud Domi'].isna(), '# iCloud'] = df_icloud['# iCloud Domi']
+
+df_icloud['iCloud'] = np.NaN
+df_icloud.loc[df_icloud['# iCloud Pharaoh'] == df_icloud['# iCloud Laurent'].isna(), 'iCloud'] = df_icloud['iCloud Laurent']
+df_icloud.loc[df_icloud['# iCloud Pharaoh'] == df_icloud['# iCloud Domi'].isna(), 'iCloud'] = df_icloud['iCloud Domi']
+
+# PHARAOH
+
+df_laurent = parse_imap( 'Laurent', 'horus.local', 'Laurent', 'Jrdl6468$' )
 df_laurent['Folder'] = df_laurent['Folder'].str.replace('"', '')
 df_laurent.rename( columns={ 'Count': '# Laurent', 'Size': 'Laurent'}, inplace=True )
 
-# df_famille = parse_imap( 'horus.local', 'Famille', 'Burais12345!!' )
-# df_famille['Folder'] = df_famille['Folder'].str.replace('"', '')
-# df_famille.rename( columns={ 'Count': '# Famille', 'Size': 'Famille'}, inplace=True )
+df_famille = parse_imap( 'Famille', 'horus.local', 'Famille', 'Burais12345!!' )
+df_famille['Folder'] = df_famille['Folder'].str.replace('"', '')
+df_famille.rename( columns={ 'Count': '# Famille', 'Size': 'Famille'}, inplace=True )
 
-#df_summary = df_laurent.merge( df_famille, on=["Folder"], how="outer" )
-df_summary = df_laurent
+df_domi = parse_imap( 'Dominique', 'horus.local', 'Dominique', 'Dburais68' )
+df_domi['Folder'] = df_domi['Folder'].str.replace('"', '')
+df_domi.rename( columns={ 'Count': '# Domi', 'Size': 'Domi'}, inplace=True )
 
-# df_summary['# Pharaoh'] = np.NaN
-# df_summary.loc[df_summary['# Laurent'].isna() & ~df_summary['# Famille'].isna(), '# Pharaoh'] = df_summary['# Famille']
-# df_summary.loc[~df_summary['# Laurent'].isna() & df_summary['# Famille'].isna(), '# Pharaoh'] = df_summary['# Laurent']
+df_summary = df_laurent.merge( df_famille, on=["Folder"], how="outer" )
+df_summary = df_summary.merge( df_domi, on=["Folder"], how="outer" )
 
-# df_summary['Pharaoh'] = np.NaN
-# df_summary.loc[df_summary['Laurent'].isna() & ~df_summary['Famille'].isna(), 'Pharaoh'] = df_summary['Famille']
-# df_summary.loc[~df_summary['Laurent'].isna() & df_summary['Famille'].isna(), 'Pharaoh'] = df_summary['Laurent']
+df_summary['# Pharaoh'] = np.NaN
+df_summary.loc[df_summary['# Pharaoh'].isna() & ~df_summary['# Famille'].isna(), '# Pharaoh'] = df_summary['# Famille']
+df_summary.loc[df_summary['# Pharaoh'].isna() & ~df_summary['# Laurent'].isna(), '# Pharaoh'] = df_summary['# Laurent']
+df_summary.loc[df_summary['# Pharaoh'].isna() & ~df_summary['# Domi'].isna(), '# Pharaoh'] = df_summary['# Domi']
 
-df_summary.rename( columns={ '# Laurent': '# Pharaoh', 'Laurent': 'Pharaoh'}, inplace=True )
+df_summary['Pharaoh'] = np.NaN
+df_summary.loc[df_summary['# Pharaoh'] == df_summary['# Famille'].isna(), 'Pharaoh'] = df_summary['Famille']
+df_summary.loc[df_summary['# Pharaoh'] == df_summary['# Laurent'].isna(), 'Pharaoh'] = df_summary['Laurent']
+df_summary.loc[df_summary['# Pharaoh'] == df_summary['# Domi'].isna(), 'Pharaoh'] = df_summary['Domi']
 
 df_summary = df_summary.merge( df_icloud, on=["Folder"], how="outer" )
 
-df_summary['Status'] = np.NaN
+# STATUS
 
-#df_summary.loc[~df_summary['# Laurent'].isna() & ~df_summary['# Famille'].isna(), 'Status'] = 'Pharaoh KO'
+df_summary['Status'] = np.NaN
 
 cond = df_summary['Status'].isna()
 cond &= ~df_summary['# iCloud'].isna()
@@ -152,32 +175,9 @@ cond &= df_summary['# iCloud'].isna()
 cond &= ~df_summary['# Pharaoh'].isna()
 df_summary.loc[cond, 'Status'] = 'To be transferred'
 
-filename = "imap OLD.xlsx"
-
-if os.path.exists( filename ):
-
-    df_previous = pd.read_excel( "imap 03AUG23 0900.xlsx", sheet_name="Sheet1", engine='openpyxl')
-
-    rename_dict = {'Status': 'Previous Status', '# Pharaoh': 'Previous # Pharaoh', 'Pharaoh': 'Previous Pharaoh', '# iCloud': 'Previous # iCloud', 'iCloud': 'Previous iCloud'}
-    df_previous.rename( columns=rename_dict, inplace=True )
-
-    keep_list = ['Folder', 'Previous Status', 'Previous # Pharaoh', 'Previous Pharaoh', 'Previous # iCloud', 'Previous iCloud']
-    df_previous.drop( columns=df_previous.columns.difference(keep_list), errors='ignore', inplace=True )
-
-    df_summary = df_summary.merge( df_previous, on=["Folder"], how="left" )
-
-    df_summary['Fixed ?'] = ""
-    cond = df_summary['Status'].isin(['Transfer OK', 'Transferred', 'No Transfer' ])
-    cond &= ~df_summary['Previous Status'].isin(['Transfer OK', 'Transferred', 'No Transfer' ])
-    df_summary.loc[cond, 'Fixed ?'] = (df_summary['Status'] != df_summary['Previous Status'])
-    cond = ~df_summary['Status'].isin(['Transfer OK', 'Transferred', 'No Transfer' ])
-    cond &= df_summary['Fixed ?'] == ""
-    df_summary.loc[cond, 'Fixed ?'] = False
-
 df_summary.sort_values( by=['Folder'], inplace=True )
 df_summary.to_excel("imap.xlsx")  
 
-print( tabulate( df_summary[df_summary['Status'].isin(['Transfer KO ?', 'To be transferred', 'Transfer KO' ])], headers='keys', tablefmt='simple_grid', floatfmt=".0f", intfmt=" ") )
 print( len(df_summary[df_summary['Status'].isin(['Transfer KO ?', 'To be transferred', 'Transfer KO' ])]))
 
 os.system(f'open "imap.xlsx"')
