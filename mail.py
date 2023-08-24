@@ -82,21 +82,21 @@ def parse_imap( src, host, user, password ):
 
 # ICLOUD
 
-df_licloud= parse_imap( 'iCloud D', 'imap.mail.me.com', 'dburais@icloud.com', 'nhgf-pncn-vcuv-hzwl' )
-df_licloud['Folder'] = df_licloud['Folder'].str.replace("/", ".")
-df_licloud['Folder'] = df_licloud['Folder'].str.replace('"', '')
-df_licloud.rename( columns={ 'Count': '# iCloud Laurent', 'Size': 'iCloud Laurent'}, inplace=True )
-
-df_dicloud= parse_imap( 'iCloud L', 'imap.mail.me.com', 'lburais@icloud.com', 'wrfe-tpdj-ebtt-bwel' )
+df_dicloud= parse_imap( 'iCloud D', 'imap.mail.me.com', 'dburais@icloud.com', 'nhgf-pncn-vcuv-hzwl' )
 df_dicloud['Folder'] = df_dicloud['Folder'].str.replace("/", ".")
 df_dicloud['Folder'] = df_dicloud['Folder'].str.replace('"', '')
 df_dicloud.rename( columns={ 'Count': '# iCloud Domi', 'Size': 'iCloud Domi'}, inplace=True )
 
+df_licloud= parse_imap( 'iCloud L', 'imap.mail.me.com', 'lburais@icloud.com', 'wrfe-tpdj-ebtt-bwel' )
+df_licloud['Folder'] = df_licloud['Folder'].str.replace("/", ".")
+df_licloud['Folder'] = df_licloud['Folder'].str.replace('"', '')
+df_licloud.rename( columns={ 'Count': '# iCloud Laurent', 'Size': 'iCloud Laurent'}, inplace=True )
+
 df_icloud = df_licloud.merge( df_dicloud, on=["Folder"], how="outer" )
 
 df_icloud['# iCloud'] = np.NaN
-df_icloud.loc[df_icloud['# iCloud Pharaoh'].isna() & ~df_icloud['# iCloud Laurent'].isna(), '# iCloud'] = df_icloud['# iCloud Laurent']
-df_icloud.loc[df_icloud['# iCloud Pharaoh'].isna() & ~df_icloud['# iCloud Domi'].isna(), '# iCloud'] = df_icloud['# iCloud Domi']
+df_icloud.loc[df_icloud['# iCloud'].isna() & ~df_icloud['# iCloud Laurent'].isna(), '# iCloud'] = df_icloud['# iCloud Laurent']
+df_icloud.loc[df_icloud['# iCloud'].isna() & ~df_icloud['# iCloud Domi'].isna(), '# iCloud'] = df_icloud['# iCloud Domi']
 
 df_icloud['iCloud'] = np.NaN
 df_icloud.loc[df_icloud['# iCloud Pharaoh'] == df_icloud['# iCloud Laurent'].isna(), 'iCloud'] = df_icloud['iCloud Laurent']
