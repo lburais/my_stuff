@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Label</key>
+	<string>com.burais.rclone</string>
+
+	<key>RunAtLoad</key>
+	<true/>
+
+	<key>ProgramArguments</key>
+	<array>
+		<string>zsh</string>
+		<string>/Users/laurent/Development/my_stuff/rclone.sh</string>
+	</array>
+
+	<key>StartCalendarInterval</key>
+   	<dict>
+		<key>Minute</key>
+		<integer>00</integer>
+	</dict>
+
+	<key>StandardOutPath</key>
+	<string>/Users/laurent/Development/my_stuff/com.burais.rclone.txt</string>
+
+	<key>StandardErrorPath</key>
+        <string>/Users/laurent/Development/my_stuff/com.burais.rclone.txt</string>
+
+</dict>
+</plist>
+
+
